@@ -1,5 +1,0 @@
-micronaut:
-    application:
-        name: HRManagement
-    server:
-        port: 8081
