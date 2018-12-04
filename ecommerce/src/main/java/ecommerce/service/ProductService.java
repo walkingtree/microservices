@@ -28,7 +28,7 @@ public class ProductService {
 	private void getDBConfig() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommerce", "root", "empower");
+			conn = DriverManager.getConnection("jdbc:mysql://ecommerce.csrwk8ez96dj.us-east-1.rds.amazonaws.com:3306/ecommerce", "root", "ecommerce");
 
 		} catch (Exception e) {
 			System.out.println(e);
