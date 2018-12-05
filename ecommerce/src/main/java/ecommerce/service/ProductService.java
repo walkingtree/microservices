@@ -56,6 +56,7 @@ public class ProductService {
 				result.put("sTDPartNumber", rs.getString(6));
 				result.put("quantiryIncrementOrder", rs.getBigDecimal(7));
 				result.put("maximumOrderQuantity", rs.getBigDecimal(8));
+				result.put("Testing", "Ravindar");
 			}
 
 		} catch (Exception ex) {
