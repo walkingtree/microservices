@@ -38,12 +38,15 @@ public class ProductService {
 	@SuppressWarnings("unchecked")
 	public JSONObject getProductInfo(String id) {
 		JSONObject result = new JSONObject();
+		PreparedStatement stmt = null ;
+		ResultSet rs           = null ; 
+		
 		try {
 			getDBConfig();
 			String sql = "SELECT * FROM " + TABLE_NAME + " WHERE PRODUCT_ID = " + id;
 
-			PreparedStatement stmt = conn.prepareStatement(sql);
-			ResultSet rs = stmt.executeQuery();
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
 			while (rs.next()) {
 				result.put("productId", rs.getString(1));
 				result.put("productName", rs.getString(2));
@@ -60,6 +63,15 @@ public class ProductService {
 		} finally {
 			try {
 				conn.close();
+				
+				if ( rs != null ) { 
+					rs.close();
+					rs = null; 
+				}
+				if ( stmt != null ) { 
+					stmt.close();
+					stmt = null; 
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -70,11 +82,13 @@ public class ProductService {
 	@SuppressWarnings("unchecked")
 	public JSONObject updateProduct(Product product) {
 		JSONObject result = new JSONObject();
+		PreparedStatement preparedStmt = null ;
+		
 		try {
 			getDBConfig();
 			String query = "update " + TABLE_NAME
 							+ "  set PRODUCT_NAME = ?, DESCRIPTION=?, LONG_DESCRIPTION=?, PART_NUMBER =?, STD_PART_NUMBER=?, QUANTITY_INCREMENT_ORDER =? , MAXIMUM_ORDER_QUANTITY=? where PRODUCT_ID = ?";
-			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			preparedStmt = conn.prepareStatement(query);
 			preparedStmt.setString(1, product.getProductName());
 			preparedStmt.setString(2, product.getDescription());
 			preparedStmt.setString(3, product.getLongDescription());
@@ -92,6 +106,13 @@ public class ProductService {
 		} finally {
 			try {
 				conn.close();
+				
+				if ( preparedStmt != null ) { 
+					preparedStmt.close();
+					preparedStmt = null; 
+				}
+				
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -102,10 +123,11 @@ public class ProductService {
 	@SuppressWarnings("unchecked")
 	public JSONObject deleteProduct(String id) {
 		JSONObject result = new JSONObject();
+		PreparedStatement preparedStmt = null ; 
 		try {
 			getDBConfig();
 			String query = "delete from " + TABLE_NAME + " WHERE PRODUCT_ID = " + id;
-			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			preparedStmt = conn.prepareStatement(query);
 
 			preparedStmt.execute();
 			result.put("status", "Deleted");
@@ -115,6 +137,13 @@ public class ProductService {
 		} finally {
 			try {
 				conn.close();
+				
+				if ( preparedStmt != null ) { 
+					preparedStmt.close();
+					preparedStmt = null; 
+				}
+				
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -125,11 +154,12 @@ public class ProductService {
 	@SuppressWarnings("unchecked")
 	public JSONObject addProduct(Product product) {
 		JSONObject result = new JSONObject();
+		PreparedStatement preparedStmt = null ; 
 		try {
 			getDBConfig();
 			String query = "INSERT INTO " + TABLE_NAME
 							+ "(PRODUCT_NAME, DESCRIPTION, LONG_DESCRIPTION, PART_NUMBER, STD_PART_NUMBER, QUANTITY_INCREMENT_ORDER, MAXIMUM_ORDER_QUANTITY, PRODUCT_ID) Values (?,?,?,?,?,?,?,?)";
-			PreparedStatement preparedStmt = conn.prepareStatement(query);
+			preparedStmt = conn.prepareStatement(query);
 			preparedStmt.setString(1, product.getProductName());
 			preparedStmt.setString(2, product.getDescription());
 			preparedStmt.setString(3, product.getLongDescription());
@@ -147,6 +177,13 @@ public class ProductService {
 		} finally {
 			try {
 				conn.close();
+				
+				if ( preparedStmt != null ) { 
+					preparedStmt.close();
+					preparedStmt = null; 
+				}
+				
+				
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
